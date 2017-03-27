@@ -1,0 +1,120 @@
+html,body{margin:0;padding:0;}
+body{
+	background:url('../images/color2.png') repeat 50% 50%,
+	url('../images/color3.png') repeat 50% 50%,
+	url('../images/color4.png') repeat 50% 50%,
+	url('../images/00331efdfaac835beb81cad978b853c19b76a53c2446c-jUrVts_fw658.png') no-repeat top right,
+	url('../images/hesui.png') no-repeat 20% 30%,
+    url('../images/fontBak.png') no-repeat top left
+	linear-gradient(135deg,red,blue);
+
+}
+ol{
+	overflow: auto;
+    height: 70%;
+    list-style: none;
+}
+ol li{
+	margin-top: 10px;
+    margin-left: 30px;
+    font-size: 2em;
+    text-align: center;
+}
+ol li span{
+	color: #0c0c0c;
+    font-family: '黑体';
+}
+.testdiv{
+	display: flex;
+    justify-content: flex-start;
+    align-items: center; 	
+    font-size: 3em;
+    color: #fce655;
+    height: 60%;
+    width: 100%;
+}
+.testdiv div{
+    height: 100%;
+    width: 25%;
+    background: url(../images/文字背景.png) no-repeat;
+    background-size: 100% 105%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
+    color: #f8d90a;
+    font-family: '黑体';
+}
+	.body{
+		height: 50%;
+	    top: 0;
+	    right: 0;
+	    left: 0;
+	}
+	.body-left{
+		height: 100%;
+	    width: 50%;
+	    float: left;
+	}
+	.body-right{
+		height: 100%;
+	    width: 50%;
+	    float: right;
+	    position: relative;
+	    display: none;
+	}
+	.body-centen-rigth{
+    width: 100%;
+    height: 100%;
+    float: right;
+}
+.content{
+    height: 80%;
+    margin: 0 auto;
+    margin-left: 140px;
+    color: #fef050;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.43);
+}
+.Nalisi{
+	text-align: center;
+    margin-top: 3%;
+    font-size: 3.5em;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+.DroinitakakalougataClick{
+	height: 10%;
+    width: 100%;
+}
+.main{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
+}
+.num_box{
+	bottom: 0px;
+	}
+.main-left{
+	padding: 20px 80px;
+
+}
+.num{
+    background: url(../images/num.png) top center repeat-y,linear-gradient(#716d00 0%,#FFEB3B 50%,#716d00 100%);
+    width: 60px;
+    height: 240px;
+    float: left;
+    margin-left: 1%;
+    padding: 0 30px;
+    border: 10px double #FFC107;
+}
+.btn{
+   	background: url(../images/priBtn.png) no-repeat 50%;
+    cursor: pointer;
+    background-size: 300px 100%;
+    height: 100%;
+    bottom: 0;
+    width : 300px;
+    margin: 0 auto;
+}

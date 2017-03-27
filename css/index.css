@@ -1,0 +1,187 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background: url('../images/color2.png') repeat 50% 50%,
+    url('../images/yunduo.png') no-repeat 0% -10%,
+    url('../images/color3.png') repeat 50% 50%,
+    url('../images/color4.png') repeat 50% 50%,
+    url('../images/riqi.png') no-repeat 115% 105%;
+}
+.content{
+    margin: 0 auto;
+    width: 100%;
+    height: 60%;
+    position: absolute;
+}
+.ConterntLeft{
+    width: 50%;
+    height: 70%;
+    float: left;
+}
+.BodyConternt{
+    height: 80%;
+    width: 100%;
+}
+.ConterntRight{
+    width: 50%;
+    float: right;
+    height: 100%;
+    overflow-x: hidden;
+}
+.table{
+    margin: 10px;
+    border: 4px double #000;
+    text-align: center;
+}
+.form-group {
+    margin-top: 5%;
+    height: 30%;
+    text-align: center;
+    margin-bottom: 15px;
+    clear: both;
+}
+.label{
+    width: 30%;
+    float: left;
+    line-height: 30px;
+    color: brown;
+    font-size: 1.5em;
+}
+.form-control {
+    width: 50%;
+    float: left;
+}
+.BtnGroup{
+    height: 20%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    clear: both;
+}
+.AddBtn{
+    background-image: url(../images/priBtnBack.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: 220px 100%;
+    height: 70%;
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-content: inherit; */
+    font-size: x-large;
+    font-family: '黑体';
+    color: #ead933;
+    font-weight: bolder;
+    line-height: 2.5em;
+    float:left;
+}
+.SeeBtn{
+    background-image: url(../images/priBtnBack.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: 220px 100%;
+    height: 70%;
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-content: inherit; */
+    font-size: x-large;
+    font-family: '黑体';
+    color: #ead933;
+    font-weight: bolder;
+    line-height: 2.5em;
+    float:left;
+}
+.initBtn{
+    background-image: url(../images/priBtnBack.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: 220px 100%;
+    height: 70%;
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-content: inherit; */
+    font-size: x-large;
+    font-family: '黑体';
+    color: #ead933;
+    font-weight: bolder;
+    line-height: 2.5em;
+}
+.GoBtn{
+    background-image: url(../images/priBtnBack.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: 220px 100%;
+    height: 70%;
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-content: inherit; */
+    font-size: x-large;
+    font-family: '黑体';
+    color: #ead933;
+    font-weight: bolder;
+    line-height: 2.5em;
+}
+.ConterntTbody{
+    background-color: #FFF;
+}
+.SeeGradeList{
+    text-align: center;}
+.non-semantic-protector { position: relative; z-index: 1; }
+.ribbon {
+    font-size: 57px !important;
+    width: 70%;
+    position: relative;
+    background: #ba89b6;
+    color: #fff;
+    text-align: center;
+    padding: 0.75em 0.5em;
+    margin: 0.3em auto 2em;
+}
+.ribbon:before, .ribbon:after {
+ content: "";
+ position: absolute;
+ display: block;
+ bottom: -1em;
+ border: 1.5em solid #986794;
+ z-index: -1;
+}
+.ribbon:before {
+ left: -2em;
+ border-right-width: 1.5em;
+ border-left-color: transparent;
+}
+.ribbon:after {
+ right: -2em;
+ border-left-width: 1.5em;
+ border-right-color: transparent;
+}
+.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+ content: "";
+ position: absolute;
+ display: block;
+ border-style: solid;
+ border-color: #804f7c transparent transparent transparent;
+ bottom: -1em;
+}
+.ribbon .ribbon-content:before {
+ left: 0;
+ border-width: 1em 0 0 1em;
+}
+.ribbon .ribbon-content:after {
+ right: 0;
+ border-width: 1em 1em 0 0;
+}
+.ribbon-content{
+    color: #f9e391;
+    font-weight: bolder;
+    /* border: 20px double #fff1f1; */
+    text-shadow: 1px 2px 0px #FFF;
+}

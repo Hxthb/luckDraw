@@ -1,0 +1,427 @@
+<!DOCTYPE>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>年会抽奖</title>
+    <link rel="stylesheet" type="text/css" href="./css/layer.css">
+    <link rel="stylesheet" type="text/css" href="./css/LuckDraw.css">
+    <link rel="stylesheet" type="text/css" href="css/fireWork.css">
+</head>
+<section class="Luck">
+    <section class="LuckDegin">
+    </section>
+</section>
+
+<body>
+    <section class="body">
+        <section class="body-left">
+            <section class="navgation" style="display: none">
+                <div class="ModelTltle">奖项面板</div>
+                <ul class="DrawList">
+                </ul>
+            </section>
+        </section>
+        <section class="body-right">
+            <section class="body-centen-rigth">
+                <section class="content">
+                    <div class="Nalisi"></div>
+                    <ol class="item-list">
+                    </ol>
+                </section>
+            </section>
+        </section>
+    </section>
+    <section class='DroinitakakalougataClick'>
+        <section class="SlideMend">
+            <div type='button' class="Return">
+
+            </div>
+            <div type="button" class="SlideToggle">
+            </div>
+        </section>
+        <div class="Luckbtn"></div>
+    </section>
+    <section class="bottom">
+        <section class="main-left">
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+            <section class="num"></section>
+        </section>
+    </section>
+</body>
+
+</html>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src='layer/layer.js'></script>
+<script>
+    $(function() {
+        //获取当前奖项数组
+        //获取缓存中的奖项数组
+        var AwarArray = JSON.parse(localStorage.getItem('AwarArray'))
+            //当前奖品数量
+        var AwardsCount = 0;
+        //当前奖品等级
+        var AwardsGrade = '';
+        // 当前窗口名称
+        window.name = 'index';
+        //当前抽奖人员数组
+        var LuckDrawArray,
+            //控制当前滚动图片像素
+            U = 265,
+            //按钮是否有效参数
+            IsBegin = false,
+            //图片更改参数
+            ImgChange = true,
+            //存储员工姓名
+            StaffName = '',
+            //存储工号
+            staffNo = ''
+            //存储员工部门
+        StaffDeptName = '',
+            //当前所有中奖者名单
+            LuckStaffName = [],
+            //存储当前工号
+            LuckStaffsNub = [],
+            //true数组
+            LuckStaffsTrue = [],
+            //奖项列表
+            LuckDrawList = [],
+            //存储Key，作为POST的key值
+            PageKey = '';
+        //奖项标识
+        var AwardPTpey;
+        //当前图片文字
+        $('.Luckbtn').text('选择奖项开始抽奖')
+            //请求当前Key项
+            // $.post("http://www.cycc.biz:9999", function(result) {
+            //     if (localStorage.LuckDrawList) {
+            //         LuckDrawList = JSON.parse(localStorage.getItem('LuckDrawList'));
+            //     } else {
+            //         localStorage.setItem('LuckDrawList', JSON.stringify(result));
+            //     }
+            // });
+            //LuckDrawList 当前奖项列表
+            // if(localStorage.LuckDrawList){
+            // 	LuckDrawList = JSON.parse(localStorage.getItem('LuckDrawList'));
+            // }else{
+            //请求当前Key项
+        $.post("http://www.cycc.biz:9999", function(result) {
+            LuckDrawList = result
+            $.each(LuckDrawList, function(key, value) {
+                    $('.DrawList').append('<li class="Draw" PTpey=' + value.PType + ' key = ' + value.Num + '>' + value.Name + '</li>')
+                })
+                //DrawClick()
+                //遍历新增数组
+            $.each(AwarArray, function(key, value) {
+                $('.DrawList').append('<li class="Draw" PTpey=1 key = ' + value.AwardsCount + '>' + value.AwardsName + '</li>')
+            })
+        });
+        if (localStorage.getItem('LuckDraw')) {
+            LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+            $.each(LuckDrawArray, function(key, value) {
+                if (value.IsSenior === true) {
+                    LuckStaffsTrue.push(value.No)
+                }
+            })
+            localStorage.setItem('LuckStaffsTrue', JSON.stringify(LuckStaffsTrue));
+        } else {
+            //获取员工工号
+            $.get("http://www.cycc.biz:9999/staffs", function(result) {
+                localStorage.setItem('LuckDraw', JSON.stringify(result));
+                LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+                $.each(LuckDrawArray, function(key, value) {
+                    if (value.IsSenior == true) {
+                        LuckStaffsTrue.push(value.No)
+                    }
+                })
+                localStorage.setItem('LuckStaffsTrue', JSON.stringify(LuckStaffsTrue));
+            });
+        }
+        $("body").on("click", ".Draw", function() {
+            $('.item-list').children().remove();
+            $('.navgation').hide()
+            AwardsCount = $(this).attr('key');
+            AwardsGrade = $(this).text();
+            AwardPTpey = $(this).attr('PTpey');
+            $('.Luckbtn').text(AwardsGrade + '开始抽奖')
+            $(this).css({
+                'background-color': 'rgb(162, 162, 162)',
+                'color': '#777572'
+            });
+            //请求当前获奖人员列表
+            $.ajax({
+                url: "http://www.cycc.biz:9999/draw",
+                type: "GET",
+                success: function(result) {
+                    if (result[AwardsGrade]) {
+                        var DrawLisi = result[AwardsGrade]
+                        $.each(DrawLisi, function(key, value) {
+                            $('.item-list').prepend('<li>' + value.Name + '&nbsp<span>' + key + '</span></li>');
+                        })
+                        if (Number(count(result[AwardsGrade])) > Number(AwardsCount) || Number(count(result[AwardsGrade])) == Number(AwardsCount)) {
+                            AwardsCount = 0;
+                            $('.Luckbtn').text('名额已抽完');
+                            $('.Nalisi').text(AwardsGrade + '获奖名单  共' + count(result[AwardsGrade]) + '人')
+                                //中奖名单显示
+                        } else if (Number(count(result[AwardsGrade])) < Number(AwardsCount)) {
+                            AwardsCount = Number(AwardsCount) - Number(count(result[AwardsGrade]));
+                        }
+                        $('.body-centen-rigth').fadeIn(1000);
+                        $('.Nalisi').text(AwardsGrade + '获奖名单')
+                    }
+                },
+                error: function() {
+
+                }
+            });
+        });
+        //统计获奖名单人员数量
+        function count(o) {
+            var t = typeof o;
+            if (t == 'string') {
+                return o.length;
+            } else if (t == 'object') {
+                var n = 0;
+                for (var i in o) {
+                    n++;
+                }
+                return n;
+            }
+            return false;
+        };
+        //展现列表
+        $('.SlideToggle').click(function() {
+                $('.navgation').slideToggle()
+            })
+            //抽奖按钮点击事件
+        $('.Luckbtn').click(function() {
+            //如果当前滚动区还在滚动则不执行
+            if (IsBegin) {
+                return false;
+            }
+            //如果当前抽奖次数已完则返回
+            if (AwardsCount != 0) {
+                var LuckStaffNunber = [];
+                $.ajax({
+                    url: "http://www.cycc.biz:9999/draw",
+                    type: "GET",
+                    success: function(result) {
+                        $.each(result, function(k, v) {
+                            $.each(v, function(i, j) {
+                                LuckStaffNunber.push(i)
+                            })
+                        })
+                    }
+                })
+                if (LuckStaffNunber.length != 0) {
+                    //排除当前已经中奖的人数
+                    var arr = JSON.parse(localStorage.getItem('LuckDraw'));
+                    var arrstr = 0;
+                    $.each(LuckStaffNunber, function(k, v) {
+                        $.each(arr, function(key, value) {
+                            if (v.No == value) {
+                                arrstr = key;
+                            }
+                        })
+                        arr.splice(arrstr, 1)
+                    })
+                    var arr2 = JSON.parse(localStorage.getItem('LuckStaffsTrue'));
+                    var arr2str = 0;
+                    $.each(LuckStaffNunber, function(k, v) {
+                        $.each(arr, function(key, value) {
+                            if (v.No == value) {
+                                arr2str = key;
+                            }
+                        })
+                        arr2.splice(arr2str, 1)
+                    })
+                    localStorage.setItem('LuckDraw', JSON.stringify(arr));
+                    LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+                    $('.Nalisi').text(AwardsGrade + '获奖名单')
+                    localStorage.setItem('LuckStaffsTrue', JSON.stringify(arr2));
+                    LuckStaffsTrue = JSON.parse(localStorage.getItem('LuckStaffsTrue'));
+                } else {
+                    LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+                    LuckStaffsTrue = JSON.parse(localStorage.getItem('LuckStaffsTrue'));
+                }
+                console.log('all:' + LuckDrawArray.length, 'true:' + LuckStaffsTrue.length)
+                    //当前抽奖次数减1
+                AwardsCount--;
+                //隐藏选择栏
+                $('.SlideToggle').hide();
+                //更改抽奖按钮背景
+                $('.Luckbtn').css({
+                        "background-image": "url(images/priBtnClickBack.png)"
+                    }).text('剩余' + AwardsCount + '次')
+                    //当前属性
+                IsBegin = true;
+                ImgChange = false;
+                //调整滚动区图片的Y坐标
+                $(".num").css('backgroundPositionY', 0);
+                if (AwardPTpey == '0') {
+                    LuckStaffsTrue = JSON.parse(localStorage.getItem('LuckStaffsTrue'));
+                    //Marika ：当前随机数
+                    Marika = Math.floor(Math.random() * LuckStaffsTrue.length + 1) - 1;
+                    //result ：获取当前抽奖结果
+                    var resultObj = LuckDrawArray[Marika];
+                    //当前抽中工号
+                    var result = resultObj.No;
+                    //从数据中删除已获奖结果值
+                    LuckStaffsTrue.splice(Marika, 1)
+                        //把数组添加到缓存中
+                    localStorage.setItem('LuckStaffsTrue', JSON.stringify(LuckStaffsTrue));
+                    LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+                    var str = 0;
+                    $.each(LuckDrawArray, function(key, value) {
+                        if (value.No == result) {
+                            str = key;
+                        }
+                    })
+                    LuckDrawArray.splice(str, 1)
+                    localStorage.setItem('LuckDraw', JSON.stringify(LuckDrawArray));
+                } else {
+                    LuckDrawArray = JSON.parse(localStorage.getItem('LuckDraw'));
+                    //Marika ：当前随机数
+                    Marika = Math.floor(Math.random() * LuckDrawArray.length + 1) - 1;
+                    //result ：获取当前抽奖结果
+                    var resultObj = LuckDrawArray[Marika];
+                    //当前抽中工号
+                    var result = resultObj.No
+                        //从数据中删除已获奖结果值
+                    LuckDrawArray.splice(Marika, 1)
+                        //把数组添加到缓存中
+                    localStorage.setItem('LuckDraw', JSON.stringify(LuckDrawArray));
+                    LuckStaffsTrue = JSON.parse(localStorage.getItem('LuckStaffsTrue'));
+                    if (resultObj.IsSenior == true) {
+                        var str;
+                        $.each(LuckStaffsTrue, function(key, value) {
+                            if (value.No == result) {
+                                str = key;
+                            }
+                        })
+                        LuckStaffsTrue.splice(str, 1)
+                        localStorage.setItem('LuckStaffsTrue', JSON.stringify(LuckStaffsTrue));
+                    }
+                }
+                if (result == '00000000' || result == '') {
+                    layer.alert('数组传递参数有误');
+                    return false;
+                }
+                //num——arr ：控制当前滚动区值
+                var num_arr = (result + '').split('');
+                //遍历当前每个滚动区			
+                $(".num").each(function(index) {
+                    var _num = $(this);
+                    //执行滚动函数
+                    setTimeout(function() {
+                        //控制当前滚动图片动画，根据相关值，选择相应坐标展示相应图片
+                        _num.animate({
+                            backgroundPositionY: (U * 60) - (U * num_arr[index])
+                        }, {
+                            //当前动画完成事件。数值越大则越慢
+                            duration: 2500 + index * 150,
+                            // duration: 400,
+                            //当前滚动时的动画效果
+                            easing: "swing",
+                            //回调函数
+                            complete: function() {
+                                //如果当前滚动到最后一个区域，则执行以下方法
+                                if (index == 7) {
+                                    //上传获奖工号及相关奖项
+                                    $.ajax({
+                                        type: 'POST', //GET
+                                        url: 'http://www.cycc.biz:9999/staffs/' + result + '?prize=' + AwardsGrade,
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        // data:JSON.stringify({"key":localStorage.PageKey}),		
+                                        success: function(data, textStatus, jqXHR) {
+                                            staffNo = data.No
+                                            StaffName = data.Name;
+                                            //layer插件 弹出框方法
+                                            layer.open({
+                                                    type: 1, //Page层类型				
+                                                    closeBtn: 0, //关闭按钮消失
+                                                    shadeClose: true, //是否点击背景关闭
+                                                    area: ['700px', '700px'], //当前弹出框大小
+                                                    title: false, //是否显示标题	
+                                                    time: 3000, //自动关闭
+                                                    shade: 0.8, //遮罩透明度
+                                                    anim: 1, //0-6的动画形式，-1不开启
+                                                    skin: 'Bagred',
+                                                    content: $('.Luck'), //弹出的DOM
+                                                    //成功回调
+                                                    success: function() {
+                                                        var fireWorkHtml = '<div class="pyro"><div class="before"></div><div class="after"></div></div>'
+                                                        $('.layui-layer-page').css({
+                                                            'background-color': 'rgba(0, 0, 0, 0)'
+                                                        });
+                                                        $('.layui-layer-shade').html(fireWorkHtml);
+                                                        //更改抽奖按钮背景
+                                                        $('.Luckbtn').css({
+                                                            "background-image": "url(images/priBtnBack.png)"
+                                                        }).text('继续抽奖');
+                                                        //添加弹出层中奖名单
+                                                        $('.LuckDegin').text(StaffName).css({
+                                                            'display': 'none'
+                                                        }).fadeIn(3000);
+                                                        //判断当前抽奖个数。如果为0则更改抽奖按钮背景为返回背景
+                                                        if (AwardsCount == 0) {
+                                                            //隐藏选择栏
+                                                            $('.SlideToggle').show(2000);
+                                                            var fireWorkHtml = '<div class="pyro"><div class="before"></div><div class="after"></div></div>'
+                                                            $('#layui-layer1').css({
+                                                                'background-color': 'rgba(0, 0, 0, 0)'
+                                                            });
+                                                            $('#layui-layer-shade1').html(fireWorkHtml);
+                                                            //更改抽奖按钮背景并消除抽奖按钮的图片更改事件
+                                                            $('.Luckbtn').css({
+                                                                "background-image": "url(images/priBtnBack.png)"
+                                                            }).text('该奖名额已抽完');
+                                                        }
+                                                    },
+                                                    //结束回调
+                                                    end: function() {
+                                                        var fireWorkHtml = '<div class="pyro"><div class="before"></div><div class="after"></div></div>'
+                                                        $('#layui-layer1').css({
+                                                            'background-color': 'rgba(0, 0, 0, 0)'
+                                                        });
+                                                        $('#layui-layer-shade1').html(fireWorkHtml);
+                                                        ImgChange = true;
+                                                        IsBegin = false;
+                                                        $('.Nalisi').text(AwardsGrade + '获奖名单')
+                                                            //中奖名单显示
+                                                        $('.body-centen-rigth').fadeIn(1000);
+                                                        //添加中奖名单到列表
+                                                        $('.item-list').prepend('<li>' + StaffName + '&nbsp' + '<span>' + staffNo + '</span></li>');
+                                                    }
+                                                })
+                                                //延迟500毫秒执行弹出框事件		       
+                                        },
+                                        error: function(xhr) {
+                                            layer.alert('参数有误');
+                                            $('.Luckbtn').css({
+                                                "background-image": "url(images/priBtnBack.png)"
+                                            }).text('参数有误,请检查');
+                                        }
+                                    })
+                                }
+                            },
+                        });
+                        //滚动框延迟500毫秒执行弹出框事件
+                    }, index * 10);
+                });
+            } else {
+                //返回抽奖页面
+                layer.alert('该奖项已经抽完');
+            }
+        });
+        $('.Return').click(function() {
+            window.open('NewAwards.html', 'index')
+        })
+    });
+</script>

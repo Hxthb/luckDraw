@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>所有中奖者名单</title>
+</head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<style type="text/css">
+	div{
+		height: 100%;
+	    width: 80%;
+	    margin: 0 auto;
+	}
+	table{
+		margin: 5%;
+		border: 5px double;
+	}
+	caption {
+	    padding-top: 8px;
+	    padding-bottom: 8px;
+	    color: #000;
+	    text-align: center;
+	    font-size: 1.3em;
+	    font-weight: bolder;
+	    border-left: 5px double;
+	    border-right: 5px double;
+	    border-top: 5px double;
+	    background-color: cornsilk;
+	}
+	td{
+		width: 50%;
+	}
+</style>
+<body>
+	<div class="AwardsList"></div>	
+</body>
+</html>
+<script type="text/javascript" src='js/jquery-1.8.3.min.js'></script>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url: "http://www.cycc.biz:9999/draw",
+            type: "GET",
+            success: function(result) {
+            	$.each(result,function(key,value){
+            		var str = ''
+            		$.each(value,function(StaffsNub,StaffsName){
+            			str += '<tr><td>'+ StaffsNub + '</td><td>'+ StaffsName.Name +'</td></tr></tbody>'
+            		}) 
+            		$('.AwardsList').append('<table class="table" falg='+ key +'><caption>'+key+'</caption><thead><tr><th>工号</th><th>姓名</th></thead>'+ str)
+            	})
+            },error:function(xhr){
+            	console.log(xhr)
+            	alert('获取数据失败')
+            }
+		})
+	})
+</script>
